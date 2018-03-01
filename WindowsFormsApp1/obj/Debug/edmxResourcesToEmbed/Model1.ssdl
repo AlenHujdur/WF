@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SalesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="20" />
+    <Property Name="CustomerStreet" Type="nvarchar" MaxLength="30" />
+    <Property Name="Region" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductBSKey" Type="int" />
+    <Property Name="ProductName" Type="nvarchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="SalesRecords">
+    <Key>
+      <PropertyRef Name="SalesRecordId" />
+    </Key>
+    <Property Name="SalesRecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerFK" Type="int" />
+    <Property Name="ProductFK" Type="int" />
+    <Property Name="Info" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__SalesReco__Custo__5535A963">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+    <End Role="SalesRecords" Type="Self.SalesRecords" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="SalesRecords">
+        <PropertyRef Name="CustomerFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SalesReco__Produ__5629CD9C">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="SalesRecords" Type="Self.SalesRecords" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="SalesRecords">
+        <PropertyRef Name="ProductFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SalesModelStoreContainer">
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesRecords" EntityType="Self.SalesRecords" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__SalesReco__Custo__5535A963" Association="Self.FK__SalesReco__Custo__5535A963">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="SalesRecords" EntitySet="SalesRecords" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SalesReco__Produ__5629CD9C" Association="Self.FK__SalesReco__Produ__5629CD9C">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="SalesRecords" EntitySet="SalesRecords" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
